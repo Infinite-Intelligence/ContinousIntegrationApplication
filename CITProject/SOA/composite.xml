@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Generated from Oracle SOA Archetype version 12.1.3.0.0  -->
+<composite name="CITProject"
+           revision="1.0-SNAPSHOT"
+           label="2013-10-14_14-36-17_928"
+           mode="active"
+           state="on"
+           xmlns="http://xmlns.oracle.com/sca/1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+           xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy"
+           xmlns:ui="http://xmlns.oracle.com/soa/designer/"
+           xmlns:sca-ext="http://xmlns.oracle.com/sca/1.0-ext">
+  <import namespace="http://xmlns.oracle.com/ContinousIntegrationApplication/CITProject/CITProcess"
+          location="WSDLs/CITProcess.wsdl" importType="wsdl"/>
+  <service name="citprocess_client_ep" ui:wsdlLocation="WSDLs/CITProcess.wsdl">
+    <interface.wsdl interface="http://xmlns.oracle.com/ContinousIntegrationApplication/CITProject/CITProcess#wsdl.interface(CITProcess)"
+                    callbackInterface="http://xmlns.oracle.com/ContinousIntegrationApplication/CITProject/CITProcess#wsdl.interface(CITProcessCallback)"/>
+    <binding.ws port="http://xmlns.oracle.com/ContinousIntegrationApplication/CITProject/CITProcess#wsdl.endpoint(citprocess_client_ep/CITProcess_pt)"/>
+    <callback>
+      <binding.ws port="http://xmlns.oracle.com/ContinousIntegrationApplication/CITProject/CITProcess#wsdl.endpoint(citprocess_client_ep/CITProcessCallback_pt)"/>
+    </callback>
+  </service>
+  <property name="productVersion" type="xs:string" many="false">12.1.3.0.0</property>
+  <component name="CITProcess" version="2.0">
+    <implementation.bpel src="BPEL/CITProcess.bpel"/>
+    <componentType>
+      <service name="citprocess_client" ui:wsdlLocation="WSDLs/CITProcess.wsdl">
+        <interface.wsdl interface="http://xmlns.oracle.com/ContinousIntegrationApplication/CITProject/CITProcess#wsdl.interface(CITProcess)"
+                        callbackInterface="http://xmlns.oracle.com/ContinousIntegrationApplication/CITProject/CITProcess#wsdl.interface(CITProcessCallback)"/>
+      </service>
+    </componentType>
+    <property name="bpel.config.oneWayDeliveryPolicy" type="xs:string" many="false">async.persist</property>
+  </component>
+  <wire>
+    <source.uri>citprocess_client_ep</source.uri>
+    <target.uri>CITProcess/citprocess_client</target.uri>
+  </wire>
+</composite>
